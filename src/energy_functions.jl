@@ -15,7 +15,7 @@ function get_energy(state::Array{Int64,1},J::Array{Float64,3},h::Array{Float64,2
 #/get_energy
 end
 
-function get_energy(state::Array{Int64,1},J::Array{Float64,3},h::Array{Float64,2},MB_parameters::Array{Float64,1},MB_sites::Array{Array{Int64,1},1},MB_colors::Array{Array{Int8,1},1},N::Int64,q::Int64)
+function get_energy(state::Array{Int64,1},J::Array{Float64,3},h::Array{Float64,2},MB_parameters::Array{Float64,1},MB_at_site::Array{Array{Int64,1},1},MB_colors_at_site::Array{Array{Int8,1},1},N::Int64,q::Int64)
 	energy=0.0
 	for i=1:N
 		energy-=h[state[i],i]
@@ -25,16 +25,6 @@ function get_energy(state::Array{Int64,1},J::Array{Float64,3},h::Array{Float64,2
 		for j=(i+1):N
 			l+=1
 			energy-=J[state[i],state[j],l]
-		end
-	end
-	for mb=1:length(MB_parameters)
-		sites=MB_sites[mb]
-		colors=MB_colors[mb]
-		for i=1:length(sites)
-			if state[sites[i]]!=colors[i]
-				break
-			end
-			energy-=MB_paramters[mb]
 		end
 	end
 	return energy
@@ -56,7 +46,7 @@ function get_energy_difference(state::Array{Int64,1},i::Int64,c::Int64,J::Array{
 #/get_energy_difference
 end
 
-function get_energy_difference(state::Array{Int64,1},i::Int64,c::Int64,J::Array{Float64,3},h::Array{Float64,2},MB_parameters::Array{Float64,1},MB_sites::Array{Array{Int64,1},1},MB_colors::Array{Array{Int8,1},1},N::Int64,q::Int64)
+function get_energy_difference(state::Array{Int64,1},i::Int64,c::Int64,J::Array{Float64,3},h::Array{Float64,2},MB_parameters::Array{Float64,1},MB_at_site::Array{Array{Int64,1},1},MB_colors_at_site::Array{Array{Int8,1},1},N::Int64,q::Int64)
 	dE= -h[c,i] + h[state[i],i]
 	for j=1:i-1
 		l = (j-1)*N - binomial(j,2) + i - j
@@ -66,8 +56,8 @@ function get_energy_difference(state::Array{Int64,1},i::Int64,c::Int64,J::Array{
 		l = (i-1)*N - binomial(i,2) + j - i
 		dE+=( -J[c,state[j],l] + J[state[i],state[j],l] )
 	end
-	# # # # # # CONTINUE HERE
-	for mb=1:
 	return dE
 #/get_energy_difference
 end
+
+function get_mb_hd(state::Array{Int64,1},MB_at_site::Array{Array{Int64,1},1},MB_colors_at_site::Array{Array{Int8,1},1},N::Int64,q::Int64)

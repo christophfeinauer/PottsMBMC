@@ -32,7 +32,6 @@ end
 function parse_MB_file(MB_file::String,N::Int64,q::Int64)
 	MB_sites=Array(Array{Int64,1},0)
 	MB_colors=Array(Array{Int8,1},0)
-	MB_participation=Array(Array{{)
 	fid=open(MB_file)
 	for line in eachline(fid)
 		params=int(split(chomp(line)))
@@ -55,7 +54,17 @@ function parse_MB_file(MB_file::String,N::Int64,q::Int64)
 		push!(MB_colors,colors)
 	end
 	close(fid)
-	return MB_sites,MB_colors
+	MB_at_site=Array(Array{Int64,1},N)
+	MB_color_at_site=Array(Arrray{Int8,1},N)
+	for mb=1:length(MB_sites)
+		for k=1:length(MB_sites[mb]) 
+			push!(MB_at_site[MB_sites[mb][k]],mb)
+			push!(MB_colors_at_site[MB_sites[mb][k]],MB_colors[mb][k])
+		end
+	end
+			
+			
+	return MB_at_site,MB_color_at_site
 end
 	
 

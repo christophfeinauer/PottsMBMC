@@ -18,23 +18,23 @@ module PottsMBMC
 
 		check_inputs(J,h,MB_parameters,MB_file,N,q)
 		en_out,sample_out,log_out = define_output_files(output_prefix)
-		MB_sites,MB_colors=parse_MB_file(MB_file,N,q)
+		MB_at_site,MB_colors_at_site=parse_MB_file(MB_file,N,q)
 		
 		state=rand(1:q,N)
-		energy=[get_energy(state,J,h,MB_parameters,MB_sites,MB_colors,N,q)]
+		energy=[get_energy(state,J,h,MB_parameters,MB_at_site,MB_colors_at_site,N,q)]
 		acceptance_rate=0.0
 
 		@printf("Energy before thermalization: %.3f\n", energy[1])
 
 		for s=1:s_init
-			propagate!(state,energy,J,h,MB_parameters,MB_sites,MB_colors,N,q)
+			propagate!(state,energy,J,h,MB_parameters,MB_at_site,MB_colors_at_site,N,q)
 		end
 
 		@printf("Energy after thermalization: %.3f\n", energy[1])
 		
 		for sample=1:N_samples
 			for s=1:s_delta
-				propagate!(state,energy,J,h,MB_parameters,MB_sites,MB_colors,N,q)
+				propagate!(state,energy,J,h,MB_parameters,MB_at_site,MB_colors_at_site,N,q)
 			end
 			@printf("\rCurrent sample energy: %.3f",energy[1])
 			write_sample(energy,state,en_out,sample_out,N)
