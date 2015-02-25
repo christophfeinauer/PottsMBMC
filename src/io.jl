@@ -29,5 +29,35 @@ function define_output_files(output_prefix::String)
 #/define_output_files
 end
 
+function parse_MB_file(MB_file::String,N::Int64,q::Int64)
+	MB_sites=Array(Array{Int64,1},0)
+	MB_colors=Array(Array{Int8,1},0)
+	MB_participation=Array(Array{{)
+	fid=open(MB_file)
+	for line in eachline(fid)
+		params=int(split(chomp(line)))
+		if !iseven(length(params))
+			close(fid)
+			error("Cannot read MB_file")
+		end
+		N_mb=div(length(params),2)
+		sites=Array(Int64,N_mb)
+		colors=Array(Int64,N_mb)
+		for l=1:N_mb
+			site=params[2*l-1]
+			assert(site > 0 && site <= N)
+			color=params[2*l]
+			assert(color > 0 && colors <= q)
+			sites[l]=site
+			colors[l]=color
+		end
+		push!(MB_sites,sites)
+		push!(MB_colors,colors)
+	end
+	close(fid)
+	return MB_sites,MB_colors
+end
+	
+
 
 
