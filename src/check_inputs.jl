@@ -6,7 +6,7 @@ function check_inputs(J::Array{Float64,3},h::Array{Float64,2},N::Int64,q::Int64)
 
 end
 
-function check_inputs(J::Array{Float64,3},h::Array{Float64,2},MB_parameters::{Float64,1},MB_file::String, N::Int64, q::Int64)
+function check_inputs(J::Array{Float64,3},h::Array{Float64,2},MB_parameters::Array{Float64,1},MB_file::String, N::Int64, q::Int64)
 
 	assert(size(J)==(q,q,binomial(N,2)))
 	assert(size(h)==(q,N))
