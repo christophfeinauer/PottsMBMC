@@ -81,10 +81,10 @@ function get_energy_difference( state::Array{Int64,1},
 
 	# MB energy contribution
 	for k=1:length(MB_at_site[i])
-		mb=MB_at_site[mb][k]
+		mb=MB_at_site[i][k]
 		# If the MB_hd[mb] > 1, any change at i cannot lead to a contribution
 		MB_hd[mb]>1 && continue
-		color=MB_colors_at_site[mb][k]
+		color=MB_colors_at_site[i][k]
 		# If "c" is "color" && color!=state[i] we know MB_hd[mb] would go 1=>0 by the exchange
 		# c!=state[i] is actually handled by propagate! but I want this function to be context independent
 		if c==color && color!=state[i]
@@ -93,7 +93,7 @@ function get_energy_difference( state::Array{Int64,1},
 		end
 		# If MB_hd[mb]==0 and c!=color we would switch this interaction of
 		if MB_hd[mb]==0 && c!=color
-			dE+=MB_paramters[mb]
+			dE+=MB_parameters[mb]
 		end
 	end
 	return dE
