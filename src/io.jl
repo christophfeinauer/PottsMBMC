@@ -7,9 +7,31 @@ function write_sample(energy::Array{Float64,1},state::Array{Int64,1},en_out::Str
 		for i=1:N
 			@printf(fid,"%2d ",state[i])
 		end
-		@printf("\n")
+		@printf(fid,"\n")
 		close(fid)
 #/write_sample
+end
+
+function select_MB_parameters(MB_file::String,MB_parameters::Array{Float64,2})
+
+	new_MB_parameters=zeros(Float64,size(MB_parameters,1))
+	counter=zeros(Int64,size(MB_parameters,1))
+	fid=open(MB_file)
+	mb=0
+	for line in eachline(fid)
+		mb+=1
+		line_data=int(split(chomp(line)))
+		for k=1:div(length(line_data),2)
+			site=line_data[2*k-1]
+			new_MB_parameters[mb]+=MB_parameters[mb,site]
+			counter[mb]+=1
+		end
+	end
+	close(fid)
+	for mb=1:length(counter)
+		new_MB_parameters[mb]/=counter[mb]
+	end
+	return new_MB_parameters
 end
 
 function define_output_files(output_prefix::String)
