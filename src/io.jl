@@ -52,6 +52,26 @@ function define_output_files(output_prefix::String)
 end
 
 function parse_MB_file(MB_file::String,N::Int64,q::Int64)
+	
+	MB_sites,MB_colors=get_MB_sites_MB_colors(MB_file,N,q)
+
+	MB_at_site=Array(Array{Int64,1},N)
+	MB_colors_at_site=Array(Array{Int8,1},N)
+	for i=1:N
+		MB_at_site[i]=zeros(Int64,0)
+		MB_colors_at_site[i]=zeros(Int64,0)
+	end
+	for mb=1:length(MB_sites)
+		for k=1:length(MB_sites[mb]) 
+			push!(MB_at_site[MB_sites[mb][k]],mb)
+			push!(MB_colors_at_site[MB_sites[mb][k]],MB_colors[mb][k])
+		end
+	end
+	return MB_at_site,MB_colors_at_site
+end
+
+function get_MB_sites_MB_colors(MB_file::String,N::Int64,q::Int64)
+	
 	MB_sites=Array(Array{Int64,1},0)
 	MB_colors=Array(Array{Int8,1},0)
 	fid=open(MB_file)
@@ -76,22 +96,6 @@ function parse_MB_file(MB_file::String,N::Int64,q::Int64)
 		push!(MB_colors,colors)
 	end
 	close(fid)
-
-	MB_at_site=Array(Array{Int64,1},N)
-	MB_colors_at_site=Array(Array{Int8,1},N)
-	for i=1:N
-		MB_at_site[i]=zeros(Int64,0)
-		MB_colors_at_site[i]=zeros(Int64,0)
-	end
-	for mb=1:length(MB_sites)
-		for k=1:length(MB_sites[mb]) 
-			push!(MB_at_site[MB_sites[mb][k]],mb)
-			push!(MB_colors_at_site[MB_sites[mb][k]],MB_colors[mb][k])
-		end
-	end
-	return MB_at_site,MB_colors_at_site
+	return MB_sites,MB_colors
 end
-	
-
-
 

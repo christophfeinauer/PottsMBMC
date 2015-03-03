@@ -4,6 +4,7 @@ module PottsMBMC
 	include("check_inputs.jl")
 	include("propagate.jl")
 	include("energy_functions.jl")
+	include("analyze_MC.jl")
 
 	function do_simulation( J::Array{Float64,3},
 				h::Array{Float64,2},
