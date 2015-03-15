@@ -4,6 +4,27 @@ module PottsMBMC
 	include("check_inputs.jl")
 	include("propagate.jl")
 	include("energy_functions.jl")
+	include("analyze_MC.jl")
+
+	function do_simulation( J::Array{Float64,3},
+				h::Array{Float64,2},
+				MB_parameters::Array{Float64,2},
+				MB_file::String,
+				N::Int64,
+				q::Int64,
+				N_samples::Int64,
+				s_init::Int64,
+				s_delta::Int64,
+				output_prefix::String)
+
+		
+		check_inputs(MB_file,MB_parameters,N)
+		warn("Selecting many-body parameters automatically")
+		MB_parameters=select_MB_parameters(MB_file,MB_parameters)
+
+		do_simulation(J,h,MB_parameters,MB_file,N,q,N_samples,s_init,s_delta,output_prefix)
+	end
+
 
 	function do_simulation( J::Array{Float64,3},
 				h::Array{Float64,2},
@@ -41,6 +62,8 @@ module PottsMBMC
 			@printf("\rCurrent sample energy: %.3f",energy[1])
 			write_sample(energy,state,en_out,sample_out,N)
 		end
+
+		energy=[get_energy(state,J,h,MB_parameters,MB_hd,N,q)]
 	#/do_simulation
 	end
 
