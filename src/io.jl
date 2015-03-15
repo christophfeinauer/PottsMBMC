@@ -46,7 +46,7 @@ function parse_MB_file(MB_file::String,N::Int64,q::Int64)
 			site=params[2*l-1]
 			assert(site > 0 && site <= N)
 			color=params[2*l]
-			assert(color > 0 && colors <= q)
+			assert(color >= -q && colors <= q && color!=0)
 			sites[l]=site
 			colors[l]=color
 		end
@@ -63,8 +63,6 @@ function parse_MB_file(MB_file::String,N::Int64,q::Int64)
 			push!(MB_colors_at_site[MB_sites[mb][k]],MB_colors[mb][k])
 		end
 	end
-			
-			
 	return MB_at_site,MB_colors_at_site
 end
 	

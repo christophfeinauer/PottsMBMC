@@ -23,10 +23,10 @@ function propagate!(state::Array{Int64,1},energy::Array{Float64,1},J::Array{Floa
 		for k=1:length(MB_at_site[i])
 			mb=MB_at_site[i][k]
 			color=MB_colors_at_site[i][k]
-			if color==c && state[i]!=color
+			if (color>0 && color==c && state[i]!=color) || (color<0 && c!=color && state[i] == color)
 				# The new color "c" is the correct color
 				MB_hd[mb]-=1
-			elseif state[i]==color && c!=color
+			elseif (color>0 && state[i]==color && c!=color) || (color<0 && c==color && state[i] != color)
 				# The old color "state[i]" was the correct color
 				MB_hd[mb]+=1
 			end
