@@ -88,7 +88,7 @@ function get_MB_sites_MB_colors(MB_file::String,N::Int64,q::Int64)
 			site=params[2*l-1]
 			assert(site > 0 && site <= N)
 			color=params[2*l]
-			assert(color >= -q && colors <= q && color!=0)
+			assert(color >= -q && color <= q && color!=0)
 			sites[l]=site
 			colors[l]=color
 		end
