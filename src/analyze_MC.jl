@@ -156,17 +156,29 @@ function get_MB_freq_from_MC(dir::String,reg::Regex,MBfile::String,N::Int64,q::I
 	nr_seqs=0
 	MB_freq=zeros(Float64,nr_MB)
 	for file in files
+		println(file)
 		fid=open(file)
 		for line in eachline(fid)
 			nr_seqs+=1
-			line_data=int(split(chomp(line)))
-			if length(line_data) != N 
+			seq=int(split(chomp(line)))
+			if length(seq) != N 
 				error("Cannot read $file")
 			end	
 			for mb=1:length(MB_sites)
-				line_data[MB_sites[mb]]!=MB_colors[mb] && continue
-				MB_freq[mb]+=1.0
-
+				flag=true
+				for k=1:length(MB_sites[mb])
+					if MB_colors[mb][k]>0 && seq[MB_sites[mb][k]]!=MB_colors[mb][k]
+						flag=false
+						break
+					end
+					if MB_colors[mb][k]<0 && seq[MB_sites[mb][k]]==abs(MB_colors[mb][k])
+						flag=false
+						break
+					end
+				end
+				if flag
+					MB_freq[mb]+=1.0
+				end
 			end
 		end
 	end

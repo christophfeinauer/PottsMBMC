@@ -88,11 +88,11 @@ function get_energy_difference( state::Array{Int64,1},
 		# If color>0 && c==color && color!=state[i] we know MB_hd[mb] would go 1=>0 by the exchange
 		# elseif color<0 && c!=color && color==state[i] we know MB_hd[mb] would go 1=>0 by the exchange
 		# c!=state[i] is actually handled by propagate! but I want this function to be context independent
-		if (color>0 && c==color && color!=state[i]) && (color<0 && c!=abs(color) && abs(color)==state[i])
+		if (color>0 && c==color && color!=state[i]) || (color<0 && c!=abs(color) && abs(color)==state[i])
 			dE-=MB_parameters[mb]
 			continue
 		end
-		# If MB_hd[mb]==0 and c!=color we would switch this interaction of
+		# If MB_hd[mb]==0 and c!=color we would switch this interaction off
 		if (color>0 && MB_hd[mb]==0 && c!=color) || (color<0 && MB_hd[mb]==0 && c==abs(color))
 			dE+=MB_parameters[mb]
 		end

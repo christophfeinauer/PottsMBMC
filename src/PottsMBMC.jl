@@ -102,6 +102,46 @@ module PottsMBMC
 		end
 	#/do_simulation
 	end
+
+	function do_simulation( J::Array{Float64,3},
+				h::Array{Float64,2},
+				N::Int64,
+				q::Int64,
+				N_samples::Int64,
+				s_init::Int64,
+				s_delta::Int64)
+				
+		
+
+		check_inputs(J,h,N,q)
+		
+		state=rand(1:q,N)
+		energy=[get_energy(state,J,h,N,q)]
+		acceptance_rate=0.0
+
+		@printf("Energy before thermalization: %.3f\n", energy[1])
+
+		for s=1:s_init
+			propagate!(state,energy,J,h,N,q)
+		end
+
+		@printf("Energy after thermalization: %.3f\n", energy[1])
+		
+		Z=Array(Int8,N_samples,N)
+		
+		for sample=1:N_samples
+			for s=1:s_delta
+				propagate!(state,energy,J,h,N,q)
+			end
+			@printf("\rCurrent sample energy: %.3f",energy[1])
+			for i=1:N
+				Z[sample,i]=state[i]
+			end
+		end
+		return Z
+	#/do_simulation
+	end
+
 #/module
 end
 
