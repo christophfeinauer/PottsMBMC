@@ -119,13 +119,13 @@ module PottsMBMC
 		energy=[get_energy(state,J,h,N,q)]
 		acceptance_rate=0.0
 
-		@printf("Energy before thermalization: %.3f\n", energy[1])
+		#@printf("Energy before thermalization: %.3f\n", energy[1])
 
 		for s=1:s_init
 			propagate!(state,energy,J,h,N,q)
 		end
 
-		@printf("Energy after thermalization: %.3f\n", energy[1])
+		#@printf("Energy after thermalization: %.3f\n", energy[1])
 		
 		Z=Array(Int8,N_samples,N)
 		
@@ -133,7 +133,7 @@ module PottsMBMC
 			for s=1:s_delta
 				propagate!(state,energy,J,h,N,q)
 			end
-			@printf("\rCurrent sample energy: %.3f",energy[1])
+			#@printf("\rCurrent sample energy: %.3f",energy[1])
 			for i=1:N
 				Z[sample,i]=state[i]
 			end
