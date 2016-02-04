@@ -6,7 +6,7 @@ function check_inputs(J::Array{Float64,3},h::Array{Float64,2},N::Int64,q::Int64)
 
 end
 
-function check_inputs(J::Array{Float64,3},h::Array{Float64,2},MB_parameters::Array{Float64,1},MB_file::String, N::Int64, q::Int64)
+function check_inputs(J::Array{Float64,3},h::Array{Float64,2},MB_parameters::Array{Float64,1},MB_file::AbstractString, N::Int64, q::Int64)
 
 	assert(size(J)==(q,q,binomial(N,2)))
 	assert(size(h)==(q,N))
@@ -17,7 +17,7 @@ function check_inputs(J::Array{Float64,3},h::Array{Float64,2},MB_parameters::Arr
 
 end
 
-function check_inputs(MB_file::String,MB_parameters::Array{Float64,2}, N::Int64)
+function check_inputs(MB_file::AbstractString,MB_parameters::Array{Float64,2}, N::Int64)
 	assert(isfile(MB_file))
 	assert(size(MB_parameters,2)==N)
 	fid=open(MB_file)

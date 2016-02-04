@@ -9,13 +9,13 @@ module PottsMBMC
 	function do_simulation( J::Array{Float64,3},
 				h::Array{Float64,2},
 				MB_parameters::Array{Float64,2},
-				MB_file::String,
+				MB_file::AbstractString,
 				N::Int64,
 				q::Int64,
 				N_samples::Int64,
 				s_init::Int64,
 				s_delta::Int64,
-				output_prefix::String)
+				output_prefix::AbstractString)
 
 		
 		check_inputs(MB_file,MB_parameters,N)
@@ -29,13 +29,13 @@ module PottsMBMC
 	function do_simulation( J::Array{Float64,3},
 				h::Array{Float64,2},
 				MB_parameters::Array{Float64,1},
-				MB_file::String,
+				MB_file::AbstractString,
 				N::Int64,
 				q::Int64,
 				N_samples::Int64,
 				s_init::Int64,
 				s_delta::Int64,
-				output_prefix::String)
+				output_prefix::AbstractString)
 
 		check_inputs(J,h,MB_parameters,MB_file,N,q)
 		en_out,sample_out,log_out = define_output_files(output_prefix)
@@ -75,7 +75,7 @@ module PottsMBMC
 				N_samples::Int64,
 				s_init::Int64,
 				s_delta::Int64,
-				output_prefix::String)
+				output_prefix::AbstractString)
 		
 
 		check_inputs(J,h,N,q)

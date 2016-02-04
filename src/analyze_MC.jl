@@ -1,4 +1,4 @@
-function get_p3_from_mc(dir::String,reg::Regex,N::Int64,q::Int64)
+function get_p3_from_mc(dir::AbstractString,reg::Regex,N::Int64,q::Int64)
 	files=readdir(dir)
 	filter!(reg,files)
 	for k=1:length(files)
@@ -45,7 +45,7 @@ function get_p3_from_mc(dir::String,reg::Regex,N::Int64,q::Int64)
 	return sdata(p3mc)
 end
 
-function get_p2_from_mc(dir::String,reg::Regex,N::Int64,q::Int64)
+function get_p2_from_mc(dir::AbstractString,reg::Regex,N::Int64,q::Int64)
 	files=readdir(dir)
 	filter!(reg,files)
 	for k=1:length(files)
@@ -142,7 +142,7 @@ function revInd2(l::Int64,N::Int64)
         return i,j
 end
 
-function get_MB_freq_from_MC(dir::String,reg::Regex,MBfile::String,N::Int64,q::Int64)
+function get_MB_freq_from_MC(dir::AbstractString,reg::Regex,MBfile::AbstractString,N::Int64,q::Int64)
 
 	MB_sites,MB_colors=get_MB_sites_MB_colors(MBfile,N,q)
 	nr_MB=length(MB_sites)

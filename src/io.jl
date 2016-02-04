@@ -1,5 +1,5 @@
 
-function write_sample(energy::Array{Float64,1},state::Array{Int64,1},en_out::String,sample_out::String,N::Int64)
+function write_sample(energy::Array{Float64,1},state::Array{Int64,1},en_out::AbstractString,sample_out::AbstractString,N::Int64)
 		fid=open(en_out,"a")
 		@printf(fid,"%f\n",energy[1])
 		close(fid)
@@ -12,7 +12,7 @@ function write_sample(energy::Array{Float64,1},state::Array{Int64,1},en_out::Str
 #/write_sample
 end
 
-function select_MB_parameters(MB_file::String,MB_parameters::Array{Float64,2})
+function select_MB_parameters(MB_file::AbstractString,MB_parameters::Array{Float64,2})
 
 	new_MB_parameters=zeros(Float64,size(MB_parameters,1))
 	counter=zeros(Int64,size(MB_parameters,1))
@@ -34,7 +34,7 @@ function select_MB_parameters(MB_file::String,MB_parameters::Array{Float64,2})
 	return new_MB_parameters
 end
 
-function define_output_files(output_prefix::String)
+function define_output_files(output_prefix::AbstractString)
 	en_out=string(output_prefix,"_energies")
 	sample_out=string(output_prefix,"_samples")
 	log_out=string(output_prefix,"_log")
@@ -51,7 +51,7 @@ function define_output_files(output_prefix::String)
 #/define_output_files
 end
 
-function parse_MB_file(MB_file::String,N::Int64,q::Int64)
+function parse_MB_file(MB_file::AbstractString,N::Int64,q::Int64)
 	
 	MB_sites,MB_colors=get_MB_sites_MB_colors(MB_file,N,q)
 
@@ -70,7 +70,7 @@ function parse_MB_file(MB_file::String,N::Int64,q::Int64)
 	return MB_at_site,MB_colors_at_site
 end
 
-function get_MB_sites_MB_colors(MB_file::String,N::Int64,q::Int64)
+function get_MB_sites_MB_colors(MB_file::AbstractString,N::Int64,q::Int64)
 	
 	MB_sites=Array(Array{Int64,1},0)
 	MB_colors=Array(Array{Int8,1},0)
